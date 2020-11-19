@@ -10,13 +10,11 @@ import com.snapdelivery.model.ServiceCategory;
 
 public interface BillService 
 {
-	Bill sendPackage(Bill bill);
-	
-	Bill getOrderByOrdeId(Integer billId);
+	Bill getBillByBillId(Integer billId);
 
 	Bill paynow(Bill bill);
 	
-	Integer getPackageCostOnAddress(Delivery delivery);
+	Integer getPackageCostOnAddressAndType(Delivery delivery,Integer typeId);
 	
 	List<ServiceCategory> getServices();
 
@@ -31,4 +29,6 @@ public interface BillService
 	List<Product> addClientProducts(Integer serviceId, Integer clientId, List<Product> product);
 
 	List<Client> addClientsByServiceId(List<Client> client);
+
+	List<Bill> getOrderByOrdeId(Integer userId);
 }

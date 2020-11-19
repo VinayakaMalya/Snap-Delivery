@@ -3,6 +3,7 @@ package com.snapdelivery.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,22 +17,23 @@ import com.snapdelivery.model.Bill;
 import com.snapdelivery.model.ServiceCategory;
 import com.snapdelivery.service.BillService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class BillController 
 {
 	@Autowired
 	private BillService billService;
 	
-	@PostMapping("bill/sendPackage")
-	public Bill sendPackage(@RequestBody Bill bill)
+	@GetMapping("bill/{billId}")
+	public Bill getBillByBillId(@PathVariable("billId") Integer billId)
 	{
-		return billService.sendPackage(bill);
+		return billService.getBillByBillId(billId);
 	}
 	
-	@GetMapping("bill/{billId}")
-	public Bill getOrderByOrdeId(@PathVariable("billId") Integer billId)
+	@GetMapping("bill/user/{userId}")
+	public List<Bill> getBillByUserId(@PathVariable("userId") Integer userId)
 	{
-		return billService.getOrderByOrdeId(billId);
+		return billService.getOrderByOrdeId(userId);
 	}
 	
 	// Send Package payment screen
@@ -42,16 +44,17 @@ public class BillController
 	}
 	
 	// Restaurant / Food/ items checkout
-	@PostMapping("product/bill")
+	@PostMapping("product/checkout")
 	public Bill checkout(@RequestBody Bill bill)
 	{
 		return billService.checkout(bill);
 	}
 	
-	@PostMapping("package/packageCost")
-	public Integer getPackageCostOnAddress(@RequestBody Delivery delivery)
+	@PostMapping("package/packageCost/type/{typeId}")
+	public Integer getPackageCostOnAddress(@PathVariable("typeId") Integer typeId,
+		@RequestBody Delivery delivery)
 	{
-		return billService.getPackageCostOnAddress(delivery);
+		return billService.getPackageCostOnAddressAndType(delivery,typeId);
 	}
 	
 	@GetMapping("service")

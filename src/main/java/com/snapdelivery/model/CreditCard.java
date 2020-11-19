@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,10 +29,7 @@ public class CreditCard
     private Integer expiryYear;
 	
 	@Column(name = "SECURITYCODE")
-    private String securityCode;
-	
-	@OneToOne(mappedBy = "creditCard")
-	private Payment payment;
+    private Integer securityCode;
 
 	public Integer getCreditCardId() {
 		return creditCardId;
@@ -75,19 +71,11 @@ public class CreditCard
 		this.expiryYear = expiryYear;
 	}
 
-	public String getSecurityCode() {
+	public Integer getSecurityCode() {
 		return securityCode;
 	}
 
-	public void setSecurityCode(String securityCode) {
+	public void setSecurityCode(Integer securityCode) {
 		this.securityCode = securityCode;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 }

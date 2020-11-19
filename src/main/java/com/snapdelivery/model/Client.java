@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,10 +25,7 @@ public class Client
 	@Column(name="PHONENUMBER")
 	private Integer phoneNumber;
 	
-	@OneToOne(mappedBy = "client")
-	private Bill bill;
-	
-	@Column(name="serviceCategoryId")
+	@Column(name="SERVICECATEGORYID")
     private Integer serviceCategoryId;
 
 	public Integer getClientId() {
@@ -62,14 +58,6 @@ public class Client
 
 	public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
 	}
 
 	public Integer getServiceCategoryId() {

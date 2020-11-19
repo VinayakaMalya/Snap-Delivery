@@ -1,13 +1,10 @@
 package com.snapdelivery.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,10 +21,6 @@ public class Delivery
 	
 	@Column(name="DROPADDRESS")
 	private String dropAddress;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "BILLID", referencedColumnName = "BILLID")
-	private Bill bill;
 
 	public Integer getDeliveryId() {
 		return deliveryId;
@@ -51,13 +44,5 @@ public class Delivery
 
 	public void setDropAddress(String dropAddress) {
 		this.dropAddress = dropAddress;
-	}
-
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
 	}
 }	

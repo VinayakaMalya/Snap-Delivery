@@ -25,7 +25,7 @@ public class Bill
 	private Integer billId;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="paymentId", referencedColumnName="paymentId")
+	@JoinColumn(name = "PAYMENTID", referencedColumnName="PAYMENTID")
 	private Payment payment;
 	
 	@Enumerated(EnumType.STRING)
@@ -33,30 +33,24 @@ public class Bill
 	private BillStatus billStatus;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="deliveryId", referencedColumnName="deliveryId")
+	@JoinColumn(name = "DELIVERYID", referencedColumnName="DELIVERYID")
 	private Delivery delivery;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="clientId", referencedColumnName="clientId")
-	private Client client;
+	@OneToOne
+    @JoinColumn(name = "CLIENTID", referencedColumnName="CLIENTID")
+    private Client client;
 	
-	@OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="BILLID")
 	private List<BillProducts> billProducts;
 	
-	@Column(name="QUANTITY")
-	private Integer quantity;
+	@OneToOne
+	@JoinColumn(name = "USERID", referencedColumnName="USERID")
+    private User user;
 	    
 	@Column(name = "NOTE")
 	private String note;
 	
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
 	public Integer getBillId() {
 		return billId;
 	}
@@ -112,6 +106,12 @@ public class Bill
 	public void setBillProducts(List<BillProducts> billProducts) {
 		this.billProducts = billProducts;
 	}
-	
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

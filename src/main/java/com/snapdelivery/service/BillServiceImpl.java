@@ -1,5 +1,6 @@
 package com.snapdelivery.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.snapdelivery.model.Bill;
 import com.snapdelivery.model.BillStatus;
 import com.snapdelivery.model.Client;
 import com.snapdelivery.model.Delivery;
+import com.snapdelivery.model.Payment;
 import com.snapdelivery.model.PaymentStatus;
 import com.snapdelivery.model.Product;
 import com.snapdelivery.model.ServiceCategory;
@@ -16,6 +18,7 @@ import com.snapdelivery.repository.BillRepository;
 import com.snapdelivery.repository.ClientRepository;
 import com.snapdelivery.repository.ProductRepository;
 import com.snapdelivery.repository.ServiceCategoryRepository;
+import com.snapdelivery.repository.UserRepository;
 
 @Service
 public class BillServiceImpl implements BillService
@@ -32,36 +35,30 @@ public class BillServiceImpl implements BillService
 	@Autowired
 	private ProductRepository productRepository;
 	
-	@Override
-	public Bill sendPackage(Bill bill) 
-	{
-		Bill nBill = new Bill();
-		nBill.setBillStatus(BillStatus.PENDING);
-		nBill.setNote(bill.getNote());
-		nBill.setDelivery(bill.getDelivery());
-		// payment cost is 50 and status is pending
-		nBill.setPayment(bill.getPayment());
-		return billRepository.save(nBill);
-	}
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
-	public Bill getOrderByOrdeId(Integer billId) 
+	public Bill getBillByBillId(Integer billId) 
 	{
 		return billRepository.findByBillId(billId);
 	}	
 	
 	@Override
-	public Bill paynow(Bill bill) 
+	public List<Bill> getOrderByOrdeId(Integer userId) 
 	{
-		Bill nBill = billRepository.findByBillId(bill.getBillId());
-		if(nBill!=null)
+		List<Bill> bills = billRepository.findAll();
+		List<Bill> nBills = new ArrayList<>();
+		if(!bills.isEmpty() && bills!=null)
 		{
-			nBill.setBillId(bill.getBillId());
-			nBill.setBillStatus(BillStatus.COMPLETED);
-			bill.getPayment().setPaymentStatus(PaymentStatus.APPROVED);
-			nBill.setPayment(bill.getPayment());
-			nBill.setDelivery(bill.getDelivery());
-			return billRepository.save(nBill);
+			for(Bill bill : bills)
+			{
+				if(userId==bill.getUser().getUserId())
+				{
+					nBills.add(bill);
+				}
+			}
+			return nBills;
 		}
 		else
 		{
@@ -70,18 +67,32 @@ public class BillServiceImpl implements BillService
 	}
 	
 	@Override
+	public Bill paynow(Bill bill) 
+	{
+		bill.setBillStatus(BillStatus.COMPLETED);
+		bill.setBillProducts(null);
+		Payment payment = bill.getPayment();
+		payment.setPaymentStatus(PaymentStatus.APPROVED);
+		Bill nBill =  billRepository.save(bill);
+		nBill.setUser(userRepository.findByUserId(nBill.getUser().getUserId()));
+		nBill.setClient(clientRepository.findByClientId(nBill.getClient().getClientId()));
+		return nBill;
+	}
+	
+	@Override
 	public Bill checkout(Bill bill) 
 	{
-		Bill nBill = new Bill();
-		nBill.setBillStatus(BillStatus.PENDING);
-		nBill.getPayment().setPaymentStatus(PaymentStatus.PENDING);
-		nBill.setPayment(bill.getPayment());
-		nBill.setBillProducts(bill.getBillProducts());
-		return billRepository.save(nBill);
+		bill.setBillStatus(BillStatus.COMPLETED);
+		Payment payment = bill.getPayment();
+		payment.setPaymentStatus(PaymentStatus.APPROVED);
+		Bill nBill =  billRepository.save(bill);
+		nBill.setUser(userRepository.findByUserId(nBill.getUser().getUserId()));
+		nBill.setClient(clientRepository.findByClientId(nBill.getClient().getClientId()));
+		return nBill;
 	}
 
 	@Override
-	public Integer getPackageCostOnAddress(Delivery delivery) 
+	public Integer getPackageCostOnAddressAndType(Delivery delivery,Integer typeId) 
 	{
 		return 50;
 	}

@@ -32,10 +32,6 @@ public class Payment
 	@Column(name = "PAYMENTSTATUS")
 	private PaymentStatus paymentStatus;
 
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "BILLID", referencedColumnName = "BILLID")
-	private Bill bill;
-
 	public Integer getPaymentId() {
 		return paymentId;
 	}
@@ -66,13 +62,5 @@ public class Payment
 
 	public void setPaymentStatus(PaymentStatus paymentStatus) {
 		this.paymentStatus = paymentStatus;
-	}
-
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
 	}
 }

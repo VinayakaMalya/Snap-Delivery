@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,9 +35,9 @@ public class Product
 	@Column(name="CLIENTID")
     private Integer clientId;
 	
-	@OneToOne(mappedBy = "product")
-	private BillProducts billProducts;
-
+//	@OneToOne(mappedBy = "product")
+//	private BillProducts billProducts;
+	
 	public String getUnit() {
 		return unit;
 	}
@@ -93,13 +92,5 @@ public class Product
 
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
-	}
-
-	public BillProducts getBillProducts() {
-		return billProducts;
-	}
-
-	public void setBillProducts(BillProducts billProducts) {
-		this.billProducts = billProducts;
 	}
 }

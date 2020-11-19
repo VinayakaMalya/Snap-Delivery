@@ -1,15 +1,11 @@
 package com.snapdelivery.model;
 
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,13 +17,27 @@ public class BillProducts
 	@Column(name = "BILLPRODUCTID")
     private Integer billsProductId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BILLID")
-	private Bill bill;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="PRODUCTID", referencedColumnName="PRODUCTID")
+//    private Product product;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="PRODUCTID", referencedColumnName="PRODUCTID")
-    private Product product;
+	@Column(name = "PRODUCTID")
+	private Integer productId;
+	
+	@Column(name = "PRODUCTNAME")
+    private String productName;
+	
+	@Column(name = "PRICE")
+    private Double price;  
+	
+	@Column(name="SIZE")
+	private String size;
+	
+	@Column(name="UNIT")
+	private String unit;
+	
+	@Column(name="QUANTITY")
+	private Integer quantity;
 
 	public Integer getBillsProductId() {
 		return billsProductId;
@@ -37,19 +47,51 @@ public class BillProducts
 		this.billsProductId = billsProductId;
 	}
 
-	public Bill getBill() {
-		return bill;
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public void setBill(Bill bill) {
-		this.bill = bill;
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
-	public Product getProduct() {
-		return product;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 }
